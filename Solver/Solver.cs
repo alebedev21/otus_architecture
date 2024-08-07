@@ -11,12 +11,12 @@ public class Solver
 
         if (!isAValid || !isBValid || !isCValid)
         {
-            throw new Exception("Arguments are invalid");
+            throw new ArgumentException("Argument is invalid");
         }
 
         if (Math.Abs(a) - Tolerance < 0)
         {
-            throw new Exception("'a' must be greater than zero");
+            throw new ArgumentException("'a' must be greater than zero");
         }
 
         double d = b * b - 4 * a * c;

@@ -62,7 +62,7 @@ public class Tests
         double c = 1;
 
         // act & assert
-        Assert.Throws<Exception>(() => Solver.Solver.Solve(a, b, c));
+        Assert.Throws<ArgumentException>(() => Solver.Solver.Solve(a, b, c));
     }
 
     [Fact(DisplayName = $"'a' must not be NaN")]
@@ -74,7 +74,7 @@ public class Tests
         double c = 1;
 
         // act & assert
-        Assert.Throws<Exception>(() => Solver.Solver.Solve(a, b, c));
+        Assert.Throws<ArgumentException>(() => Solver.Solver.Solve(a, b, c));
     }
 
     [Fact(DisplayName = $"'b' must not be NaN")]
@@ -86,7 +86,7 @@ public class Tests
         double c = 1;
 
         // act & assert
-        Assert.Throws<Exception>(() => Solver.Solver.Solve(a, b, c));
+        Assert.Throws<ArgumentException>(() => Solver.Solver.Solve(a, b, c));
     }
 
     [Fact(DisplayName = $"'c' must not be NaN")]
@@ -98,7 +98,7 @@ public class Tests
         double c = Double.NaN;
 
         // act & assert
-        Assert.Throws<Exception>(() => Solver.Solver.Solve(a, b, c));
+        Assert.Throws<ArgumentException>(() => Solver.Solver.Solve(a, b, c));
     }
 
     [Fact(DisplayName = $"'a' must not be PositiveInfinity")]
@@ -110,7 +110,7 @@ public class Tests
         double c = 1;
 
         // act & assert
-        Assert.Throws<Exception>(() => Solver.Solver.Solve(a, b, c));
+        Assert.Throws<ArgumentException>(() => Solver.Solver.Solve(a, b, c));
     }
 
     [Fact(DisplayName = $"'b' must not be PositiveInfinity")]
@@ -122,7 +122,7 @@ public class Tests
         double c = 1;
 
         // act & assert
-        Assert.Throws<Exception>(() => Solver.Solver.Solve(a, b, c));
+        Assert.Throws<ArgumentException>(() => Solver.Solver.Solve(a, b, c));
     }
 
     [Fact(DisplayName = $"'c' must not be PositiveInfinity")]
@@ -134,7 +134,7 @@ public class Tests
         double c = Double.PositiveInfinity;
 
         // act & assert
-        Assert.Throws<Exception>(() => Solver.Solver.Solve(a, b, c));
+        Assert.Throws<ArgumentException>(() => Solver.Solver.Solve(a, b, c));
     }
 
     [Fact(DisplayName = $"'a' must not be NegativeInfinity")]
@@ -146,7 +146,7 @@ public class Tests
         double c = 1;
 
         // act & assert
-        Assert.Throws<Exception>(() => Solver.Solver.Solve(a, b, c));
+        Assert.Throws<ArgumentException>(() => Solver.Solver.Solve(a, b, c));
     }
 
     [Fact(DisplayName = $"'b' must not be NegativeInfinity")]
@@ -158,7 +158,7 @@ public class Tests
         double c = 1;
 
         // act & assert
-        Assert.Throws<Exception>(() => Solver.Solver.Solve(a, b, c));
+        Assert.Throws<ArgumentException>(() => Solver.Solver.Solve(a, b, c));
     }
 
     [Fact(DisplayName = $"'c' must not be NegativeInfinity")]
@@ -170,6 +170,6 @@ public class Tests
         double c = Double.NegativeInfinity;
 
         // act & assert
-        Assert.Throws<Exception>(() => Solver.Solver.Solve(a, b, c));
+        Assert.Throws<ArgumentException>(() => Solver.Solver.Solve(a, b, c));
     }
 }
