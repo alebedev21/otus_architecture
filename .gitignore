@@ -1,0 +1,11 @@
+/.idea
+/.vs
+
+/Console/bin
+/Console/obj
+
+/Solver/bin
+/Solver/obj
+
+/SolverTests/bin
+/SolverTests/obj
