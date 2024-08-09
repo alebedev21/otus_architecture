@@ -8,4 +8,8 @@
         <RootNamespace>HomeWork</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Server\Server.csproj" />
+    </ItemGroup>
+
 </Project>
