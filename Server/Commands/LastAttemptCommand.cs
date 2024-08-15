@@ -1,6 +1,6 @@
 ﻿namespace Server.Commands;
 
-public class ThirdAttemptCommand(ICommand command) : ICommand
+public class LastAttemptCommand(ICommand command) : ICommand
 {
     public void Execute()
     {

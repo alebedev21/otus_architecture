@@ -1,33 +1,16 @@
 ﻿using Server.Commands;
 
-namespace Server;
+namespace Server.ExceptionHandling;
 
-public static class ExceptionHandler
+public static class ExceptionHandlerTwoRetries
 {
-    private static readonly Func<ICommand, Exception, ICommand> SecondAttemptHandle = (c, _) =>
-    {
-        SecondAttemptCommand cmd = new(c);
-        return new RetryCommand(cmd);
-    };
-    private static readonly Func<ICommand, Exception, ICommand> ThirdAttemptHandle = (c, _) =>
-    {
-        ThirdAttemptCommand cmd = new(c);
-        return new RetryCommand(cmd);
-    };
-
-    private static readonly Func<ICommand, Exception, ICommand> LogHandle = (_, e) =>
-    {
-        LogCommand cmd = new(e);
-        return new RetryCommand(cmd);
-    };
-
-    private static readonly DefaultValueDictionary<Type, Func<ICommand, Exception, ICommand>> _defaultHandlers = new(SecondAttemptHandle);
+    private static readonly DefaultValueDictionary<Type, Func<ICommand, Exception, ICommand>> _defaultHandlers = new(Handles.SecondAttemptHandle);
     private static readonly DefaultValueDictionary<Type, DefaultValueDictionary<Type, Func<ICommand, Exception, ICommand>>> _handlers = new(_defaultHandlers);
 
-    static ExceptionHandler()
+    static ExceptionHandlerTwoRetries()
     {
-        RegisterDefaultHandler(typeof(SecondAttemptCommand), ThirdAttemptHandle);
-        RegisterDefaultHandler(typeof(ThirdAttemptCommand), LogHandle);
+        RegisterDefaultHandler(typeof(SecondAttemptCommand), Handles.LastAttemptHandle);
+        RegisterDefaultHandler(typeof(LastAttemptCommand), Handles.LogHandle);
     }
 
     public static ICommand Handle(ICommand command, Exception exception)

@@ -1,4 +1,5 @@
 ﻿using Server.Commands;
+using Server.ExceptionHandling;
 
 namespace Server;
 
@@ -31,7 +32,7 @@ public class Core
             catch (Exception ex)
             {
                 Console.WriteLine($"ExceptionHandler {command.GetType()} started");
-                ExceptionHandler.Handle(command, ex).Execute();
+                ExceptionHandlerTwoRetries.Handle(command, ex).Execute();
                 Console.WriteLine($"ExceptionHandler {command.GetType()} finished");
             }
         }
