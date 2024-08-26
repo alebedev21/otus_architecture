@@ -16,10 +16,10 @@ public class Tests
         starship.SetVelocity(new(-7,3));
 
         IMovable adapter = new MovableAdapter(starship);
-        Move move = new(adapter);
+        MoveCommand moveCommand = new(adapter);
 
         // act
-        move.Execute();
+        moveCommand.Execute();
 
         // assert
         Assert.Equal(new(5,8), starship.GetPosition());
@@ -34,10 +34,10 @@ public class Tests
         obj.SetVelocity(new(-7,3));
 
         IMovable adapter = new MovableAdapter(obj);
-        Move move = new(adapter);
+        MoveCommand moveCommand = new(adapter);
 
         // act & assert
-        Assert.Throws<ArgumentException>(() => move.Execute());
+        Assert.Throws<ArgumentException>(() => moveCommand.Execute());
     }
 
     [Fact(DisplayName = "Unknown velocity object throws an exception")]
@@ -49,10 +49,10 @@ public class Tests
         obj.SetVelocity(new(-7,3));
 
         IMovable adapter = new MovableAdapter(obj);
-        Move move = new(adapter);
+        MoveCommand moveCommand = new(adapter);
 
         // act & assert
-        Assert.Throws<ArgumentException>(() => move.Execute());
+        Assert.Throws<ArgumentException>(() => moveCommand.Execute());
     }
 
     [Fact(DisplayName = "Unchangeable position object throws an exception")]
@@ -63,10 +63,10 @@ public class Tests
         obj.SetVelocity(new(-7,3));
 
         IMovable adapter = new MovableAdapter(obj);
-        Move move = new(adapter);
+        MoveCommand moveCommand = new(adapter);
 
         // act & assert
-        Assert.Throws<ArgumentException>(() => move.Execute());
+        Assert.Throws<ArgumentException>(() => moveCommand.Execute());
     }
 
     [Fact(DisplayName = "Starship rotates")]
@@ -78,10 +78,10 @@ public class Tests
         starship.SetAngleVelocity(new(45));
 
         IRotatable adapter = new RotatableAdapter(starship);
-        Rotate rotate = new(adapter);
+        RotateCommand rotateCommand = new(adapter);
 
         // act
-        rotate.Execute();
+        rotateCommand.Execute();
 
         // assert
         Assert.Equal(new(60), starship.GetAnglePosition());
@@ -96,10 +96,10 @@ public class Tests
         starship.SetAngleVelocity(new(360_000_000));
 
         IRotatable adapter = new RotatableAdapter(starship);
-        Rotate rotate = new(adapter);
+        RotateCommand rotateCommand = new(adapter);
 
         // act
-        rotate.Execute();
+        rotateCommand.Execute();
 
         // assert
         Assert.Equal(new(15), starship.GetAnglePosition());
@@ -112,9 +112,9 @@ public class Tests
         UnknownVelocityObject obj = new();
 
         IRotatable adapter = new RotatableAdapter(obj);
-        Rotate rotate = new(adapter);
+        RotateCommand rotateCommand = new(adapter);
 
         // act & assert
-        Assert.Throws<ArgumentException>(() => rotate.Execute());
+        Assert.Throws<ArgumentException>(() => rotateCommand.Execute());
     }
 }

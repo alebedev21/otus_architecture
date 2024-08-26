@@ -1,11 +1,18 @@
-﻿using Server.ValueTypes;
+﻿using Server;
+using Server.Adapters;
+using Server.Commands;
+using Server.Entities;
+using Server.Interfaces;
 
-Angle angle = new();
+UnknownPositionObject obj = new();
+obj.SetPosition(new(12,5));
+obj.SetVelocity(new(-7,3));
 
-for (int i = 0; i <= 360; i++)
-{
-    angle.SetValue(i);
-    Console.WriteLine(angle.GetValue());
-}
+IMovable adapter = new MovableAdapter(obj);
+MoveCommand moveCommand = new(adapter);
+
+Core core = new();
+core.AddCommand(moveCommand);
+core.Start();
 
 Console.WriteLine("Ok");
