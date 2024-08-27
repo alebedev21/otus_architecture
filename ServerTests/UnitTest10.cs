@@ -1,4 +1,6 @@
-﻿using Server.Adapters;
+﻿using System.Numerics;
+using Server;
+using Server.Adapters;
 using Server.Commands;
 using Server.Entities;
 using Server.Exceptions;
@@ -179,7 +181,7 @@ public class UnitTest10
     }
 
     [Fact(DisplayName = "Starship turns")]
-    public void Test_5()
+    public void Test_5_1()
     {
         // arrange
         Starship starship = new()
@@ -199,5 +201,53 @@ public class UnitTest10
         // assert
         Assert.Null(ex);
         Assert.Equal(new(7,-3), starship.Velocity);
+    }
+
+    [Fact(DisplayName = "Starship doesn't turn")]
+    public void Test_5_2()
+    {
+        // arrange
+        Starship starship = new()
+        {
+            Position = new(12,5),
+            Velocity = new(0,0),
+            AnglePosition = new Angle(180)
+        };
+
+        IMovable movableAdapter = new MovableAdapter(starship);
+        IRotatable rotatableAdapter = new RotatableAdapter(starship);
+        TurnCommand turnCommand = new(movableAdapter, rotatableAdapter);
+
+        // act
+        var ex = Record.Exception(() => turnCommand.Execute());
+
+        // assert
+        Assert.Null(ex);
+        Assert.Equal(new(0,0), starship.Velocity);
+    }
+
+    [Fact(DisplayName = "Starship rotates and turns")]
+    public void Test_6_1()
+    {
+        // arrange
+        Starship starship = new()
+        {
+            Position = new(12,5),
+            Velocity = new(2,0),
+            AnglePosition = new Angle(0),
+            AngleVelocity = new Angle(180)
+        };
+
+        IMovable movableAdapter = new MovableAdapter(starship);
+        IRotatable rotatableAdapter = new RotatableAdapter(starship);
+        RotateAndTurnCommand command = new(movableAdapter, rotatableAdapter);
+
+        // act
+        var ex = Record.Exception(() => command.Execute());
+
+        // assert
+        Assert.Null(ex);
+        Assert.Equal(new(180), starship.AnglePosition);
+        Assert.Equal(new(-2, 0), starship.Velocity);
     }
 }
