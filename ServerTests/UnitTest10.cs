@@ -14,14 +14,18 @@ public class UnitTest10
         // arrange
         FuelTank tank = new()
         {
-            Amount = 1
+            FuelAmount = 1
         };
+
         WarpEngine engine = new()
         {
             FuelConsumption = 10,
         };
 
-        CheckFuelCommand command = new(tank, engine);
+        IFuelProvider fuelProviderAdapter = new FuelProviderAdapter(tank);
+        IFuelConsumer fuelConsumerAdapter = new FuelConsumerAdapter(engine);
+
+        CheckFuelCommand command = new(fuelProviderAdapter, fuelConsumerAdapter);
 
         //act & assert
         Assert.Throws<CommandException>(() => command.Execute());
@@ -33,14 +37,18 @@ public class UnitTest10
         // arrange
         FuelTank tank = new()
         {
-            Amount = 100
+            FuelAmount = 100
         };
+
         WarpEngine engine = new()
         {
             FuelConsumption = 10,
         };
 
-        CheckFuelCommand command = new(tank, engine);
+        IFuelProvider fuelProviderAdapter = new FuelProviderAdapter(tank);
+        IFuelConsumer fuelConsumerAdapter = new FuelConsumerAdapter(engine);
+
+        CheckFuelCommand command = new(fuelProviderAdapter, fuelConsumerAdapter);
 
         // act
         var ex = Record.Exception(() => command.Execute());
@@ -55,20 +63,24 @@ public class UnitTest10
         // arrange
         FuelTank tank = new()
         {
-            Amount = 100
+            FuelAmount = 100
         };
+
         WarpEngine engine = new()
         {
             FuelConsumption = 10,
         };
 
-        BurnFuelCommand command = new(tank, engine);
+        IFuelProvider fuelProviderAdapter = new FuelProviderAdapter(tank);
+        IFuelConsumer fuelConsumerAdapter = new FuelConsumerAdapter(engine);
+
+        BurnFuelCommand command = new(fuelProviderAdapter, fuelConsumerAdapter);
 
         // act
         var ex = Record.Exception(() => command.Execute());
 
         // assert
-        Assert.Equal(90, tank.Amount);
+        Assert.Equal(90, tank.FuelAmount);
     }
 
     [Fact(DisplayName = "MacroCommand throw CommandException if there is not enough fuel")]
@@ -77,20 +89,24 @@ public class UnitTest10
         // arrange
         FuelTank tank = new()
         {
-            Amount = 1
+            FuelAmount = 1
         };
+
         WarpEngine engine = new()
         {
             FuelConsumption = 10,
         };
 
-        CheckFuelCommand checkFuelCommand = new(tank, engine);
-        BurnFuelCommand burnFuelCommand = new(tank, engine);
+        IFuelProvider fuelProviderAdapter = new FuelProviderAdapter(tank);
+        IFuelConsumer fuelConsumerAdapter = new FuelConsumerAdapter(engine);
+
+        CheckFuelCommand checkFuelCommand = new(fuelProviderAdapter, fuelConsumerAdapter);
+        BurnFuelCommand burnFuelCommand = new(fuelProviderAdapter, fuelConsumerAdapter);
         MacroCommand macroCommand = new([checkFuelCommand, burnFuelCommand]);
 
         //act & assert
         Assert.Throws<CommandException>(() => macroCommand.Execute());
-        Assert.Equal(1, tank.Amount);
+        Assert.Equal(1, tank.FuelAmount);
     }
 
     [Fact(DisplayName = "MacroCommand doesn't throw CommandException if there is enough fuel")]
@@ -99,15 +115,19 @@ public class UnitTest10
         // arrange
         FuelTank tank = new()
         {
-            Amount = 100
+            FuelAmount = 100
         };
+
         WarpEngine engine = new()
         {
             FuelConsumption = 10,
         };
 
-        CheckFuelCommand checkFuelCommand = new(tank, engine);
-        BurnFuelCommand burnFuelCommand = new(tank, engine);
+        IFuelProvider fuelProviderAdapter = new FuelProviderAdapter(tank);
+        IFuelConsumer fuelConsumerAdapter = new FuelConsumerAdapter(engine);
+
+        CheckFuelCommand checkFuelCommand = new(fuelProviderAdapter, fuelConsumerAdapter);
+        BurnFuelCommand burnFuelCommand = new(fuelProviderAdapter, fuelConsumerAdapter);
         MacroCommand macroCommand = new([checkFuelCommand, burnFuelCommand]);
 
         // act
@@ -115,7 +135,7 @@ public class UnitTest10
 
         // assert
         Assert.Null(ex);
-        Assert.Equal(90, tank.Amount);
+        Assert.Equal(90, tank.FuelAmount);
     }
 
     [Fact(DisplayName = "Starship moves consuming fuel")]
@@ -131,15 +151,19 @@ public class UnitTest10
 
         FuelTank tank = new()
         {
-            Amount = 100
+            FuelAmount = 100
         };
+
         WarpEngine engine = new()
         {
             FuelConsumption = 10,
         };
 
-        CheckFuelCommand checkFuelCommand = new(tank, engine);
-        BurnFuelCommand burnFuelCommand = new(tank, engine);
+        IFuelProvider fuelProviderAdapter = new FuelProviderAdapter(tank);
+        IFuelConsumer fuelConsumerAdapter = new FuelConsumerAdapter(engine);
+
+        CheckFuelCommand checkFuelCommand = new(fuelProviderAdapter, fuelConsumerAdapter);
+        BurnFuelCommand burnFuelCommand = new(fuelProviderAdapter, fuelConsumerAdapter);
         MacroCommand macroCommand = new([checkFuelCommand, burnFuelCommand, moveCommand]);
 
         // act
@@ -147,7 +171,7 @@ public class UnitTest10
 
         // assert
         Assert.Null(ex);
-        Assert.Equal(90, tank.Amount);
+        Assert.Equal(90, tank.FuelAmount);
         Assert.Equal(new(5,8), starship.GetPosition());
     }
 }

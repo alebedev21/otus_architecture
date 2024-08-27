@@ -1,11 +1,14 @@
-﻿using Server.Entities;
+﻿using Server.Interfaces;
 
 namespace Server.Commands;
 
-public class BurnFuelCommand(FuelTank tank, WarpEngine engine) : ICommand
+public class BurnFuelCommand(IFuelProvider fuelProviderObject, IFuelConsumer fuelConsumerObject) : ICommand
 {
     public void Execute()
     {
-        tank.Amount -= engine.FuelConsumption;
+        var currentFuelAmount = fuelProviderObject.GetFuelAmount();
+        var consumption = fuelConsumerObject.GetFuelConsumption();
+
+        fuelProviderObject.SetFuelAmount(currentFuelAmount - consumption);
     }
 }

@@ -1,14 +1,13 @@
-﻿using Server.Entities;
-using Server.Interfaces;
+﻿using Server.Interfaces;
 
 namespace Server.Commands;
 
-public class FuelConsumingMoveCommand(IMovable movableObject, FuelTank tank, WarpEngine engine) : ICommand
+public class FuelConsumingMoveCommand(IMovable movableObject, IFuelProvider fuelProviderObject, IFuelConsumer fuelConsumerObject) : ICommand
 {
     public void Execute()
     {
-        CheckFuelCommand checkFuelCommand = new(tank, engine);
-        BurnFuelCommand burnFuelCommand = new(tank, engine);
+        CheckFuelCommand checkFuelCommand = new(fuelProviderObject, fuelConsumerObject);
+        BurnFuelCommand burnFuelCommand = new(fuelProviderObject, fuelConsumerObject);
         MoveCommand moveCommand = new(movableObject);
         MacroCommand macroCommand = new([checkFuelCommand, burnFuelCommand, moveCommand]);
 

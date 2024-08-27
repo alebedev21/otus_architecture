@@ -1,13 +1,16 @@
-﻿using Server.Entities;
-using Server.Exceptions;
+﻿using Server.Exceptions;
+using Server.Interfaces;
 
 namespace Server.Commands;
 
-public class CheckFuelCommand(FuelTank tank, WarpEngine engine) : ICommand
+public class CheckFuelCommand(IFuelProvider fuelProviderObject, IFuelConsumer fuelConsumerObject) : ICommand
 {
     public void Execute()
     {
-        if (tank.Amount < engine.FuelConsumption)
+        var currentFuelAmount = fuelProviderObject.GetFuelAmount();
+        var consumption = fuelConsumerObject.GetFuelConsumption();
+
+        if (currentFuelAmount < consumption)
         {
             throw new CommandException();
         }
