@@ -7,24 +7,24 @@ public class RotatableAdapter(object rotatableObject) : IRotatable
 {
     public Angle GetPosition()
     {
-        return Invoke<Angle>("GetAnglePosition");
+        return Invoke<Angle>("AnglePosition");
     }
 
     public Angle GetVelocity()
     {
-        return Invoke<Angle>("GetAngleVelocity");
+        return Invoke<Angle>("AngleVelocity");
     }
 
     public void SetPosition(Angle position)
     {
-        Invoke("SetAnglePosition", position);
+        Invoke("AnglePosition", position);
     }
 
-    private T Invoke<T>(string methodName)
+    private T Invoke<T>(string property)
     {
         try
         {
-            return (T)rotatableObject.GetType().GetMethod(methodName)!.Invoke(rotatableObject, null)!;
+            return (T)rotatableObject.GetType().GetProperty(property)!.GetValue(rotatableObject)!;
         }
         catch (Exception e)
         {
@@ -32,11 +32,11 @@ public class RotatableAdapter(object rotatableObject) : IRotatable
         }
     }
 
-    private void Invoke<T>(string methodName, T value)
+    private void Invoke<T>(string property, T value)
     {
         try
         {
-            rotatableObject.GetType().GetMethod(methodName)!.Invoke(rotatableObject, [value]);
+            rotatableObject.GetType().GetProperty(property)!.SetValue(rotatableObject, value);
         }
         catch (Exception e)
         {

@@ -142,9 +142,11 @@ public class UnitTest10
     public void Test_4_1()
     {
         // arrange
-        Starship starship = new();
-        starship.SetPosition(new(12,5));
-        starship.SetVelocity(new(-7,3));
+        Starship starship = new()
+        {
+            Position = new(12,5),
+            Velocity = new(-7,3)
+        };
 
         IMovable adapter = new MovableAdapter(starship);
         MoveCommand moveCommand = new(adapter);
@@ -172,6 +174,6 @@ public class UnitTest10
         // assert
         Assert.Null(ex);
         Assert.Equal(90, tank.FuelAmount);
-        Assert.Equal(new(5,8), starship.GetPosition());
+        Assert.Equal(new(5,8), starship.Position);
     }
 }

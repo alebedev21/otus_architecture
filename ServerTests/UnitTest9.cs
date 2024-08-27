@@ -4,6 +4,7 @@ using Server.Commands;
 using Server.Entities;
 using Server.ExceptionHandling;
 using Server.Interfaces;
+using ServerTests.Entities;
 
 namespace ServerTests;
 
