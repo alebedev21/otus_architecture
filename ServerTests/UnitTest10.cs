@@ -1,6 +1,8 @@
-﻿using Server.Commands;
+﻿using Server.Adapters;
+using Server.Commands;
 using Server.Entities;
 using Server.Exceptions;
+using Server.Interfaces;
 
 namespace ServerTests;
 
@@ -114,5 +116,38 @@ public class UnitTest10
         // assert
         Assert.Null(ex);
         Assert.Equal(90, tank.Amount);
+    }
+
+    [Fact(DisplayName = "Starship moves consuming fuel")]
+    public void Test_4_1()
+    {
+        // arrange
+        Starship starship = new();
+        starship.SetPosition(new(12,5));
+        starship.SetVelocity(new(-7,3));
+
+        IMovable adapter = new MovableAdapter(starship);
+        MoveCommand moveCommand = new(adapter);
+
+        FuelTank tank = new()
+        {
+            Amount = 100
+        };
+        WarpEngine engine = new()
+        {
+            FuelConsumption = 10,
+        };
+
+        CheckFuelCommand checkFuelCommand = new(tank, engine);
+        BurnFuelCommand burnFuelCommand = new(tank, engine);
+        MacroCommand macroCommand = new([checkFuelCommand, burnFuelCommand, moveCommand]);
+
+        // act
+        var ex = Record.Exception(() => macroCommand.Execute());
+
+        // assert
+        Assert.Null(ex);
+        Assert.Equal(90, tank.Amount);
+        Assert.Equal(new(5,8), starship.GetPosition());
     }
 }
