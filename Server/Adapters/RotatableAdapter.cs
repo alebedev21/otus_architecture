@@ -5,17 +5,17 @@ namespace Server.Adapters;
 
 public class RotatableAdapter(object rotatableObject) : IRotatable
 {
-    public Angle GetPosition()
+    public Angle GetAnglePosition()
     {
         return Invoke<Angle>("AnglePosition");
     }
 
-    public Angle GetVelocity()
+    public Angle GetAngleVelocity()
     {
         return Invoke<Angle>("AngleVelocity");
     }
 
-    public void SetPosition(Angle position)
+    public void SetAnglePosition(Angle position)
     {
         Invoke("AnglePosition", position);
     }

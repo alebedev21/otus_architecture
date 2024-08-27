@@ -20,6 +20,11 @@ public class MovableAdapter(object movableObject) : IMovable
         Invoke("Position", position);
     }
 
+    public void SetVelocity(Vector2 velocity)
+    {
+        Invoke("Velocity", velocity);
+    }
+
     private T Invoke<T>(string propertyName)
     {
         try

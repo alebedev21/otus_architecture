@@ -3,6 +3,7 @@ using Server.Commands;
 using Server.Entities;
 using Server.Exceptions;
 using Server.Interfaces;
+using Server.ValueTypes;
 
 namespace ServerTests;
 
@@ -175,5 +176,28 @@ public class UnitTest10
         Assert.Null(ex);
         Assert.Equal(90, tank.FuelAmount);
         Assert.Equal(new(5,8), starship.Position);
+    }
+
+    [Fact(DisplayName = "Starship turns")]
+    public void Test_5()
+    {
+        // arrange
+        Starship starship = new()
+        {
+            Position = new(12,5),
+            Velocity = new(-7,3),
+            AnglePosition = new Angle(180)
+        };
+
+        IMovable movableAdapter = new MovableAdapter(starship);
+        IRotatable rotatableAdapter = new RotatableAdapter(starship);
+        TurnCommand turnCommand = new(movableAdapter, rotatableAdapter);
+
+        // act
+        var ex = Record.Exception(() => turnCommand.Execute());
+
+        // assert
+        Assert.Null(ex);
+        Assert.Equal(new(7,-3), starship.Velocity);
     }
 }
