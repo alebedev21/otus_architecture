@@ -151,9 +151,6 @@ public class UnitTest10
             Velocity = new(-7,3)
         };
 
-        IMovable adapter = new MovableAdapter(starship);
-        MoveCommand moveCommand = new(adapter);
-
         FuelTank tank = new()
         {
             FuelAmount = 100
@@ -164,15 +161,14 @@ public class UnitTest10
             FuelConsumption = 10,
         };
 
+        IMovable movableAdapter = new MovableAdapter(starship);
         IFuelProvider fuelProviderAdapter = new FuelProviderAdapter(tank);
         IFuelConsumer fuelConsumerAdapter = new FuelConsumerAdapter(engine);
 
-        CheckFuelCommand checkFuelCommand = new(fuelProviderAdapter, fuelConsumerAdapter);
-        BurnFuelCommand burnFuelCommand = new(fuelProviderAdapter, fuelConsumerAdapter);
-        MacroCommand macroCommand = new([checkFuelCommand, burnFuelCommand, moveCommand]);
+        ICommand command = new FuelConsumingMoveCommand(movableAdapter, fuelProviderAdapter, fuelConsumerAdapter);
 
         // act
-        var ex = Record.Exception(() => macroCommand.Execute());
+        var ex = Record.Exception(() => command.Execute());
 
         // assert
         Assert.Null(ex);
