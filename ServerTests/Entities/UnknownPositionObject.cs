@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace Server.Entities;
+namespace ServerTests.Entities;
 
 public class UnknownPositionObject
 {

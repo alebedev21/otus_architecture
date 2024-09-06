@@ -7,8 +7,8 @@ public class RotateCommand(IRotatable rotatableObject) : ICommand
 {
     public void Execute()
     {
-        Angle newPosition = rotatableObject.GetPosition() + rotatableObject.GetVelocity();
-        rotatableObject.SetPosition(newPosition);
+        Angle newPosition = rotatableObject.GetAnglePosition() + rotatableObject.GetAngleVelocity();
+        rotatableObject.SetAnglePosition(newPosition);
         Console.WriteLine("Rotated");
     }
 }

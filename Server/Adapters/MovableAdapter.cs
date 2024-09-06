@@ -7,24 +7,29 @@ public class MovableAdapter(object movableObject) : IMovable
 {
     public Vector2 GetPosition()
     {
-        return Invoke<Vector2>("GetPosition");
+        return Invoke<Vector2>("Position");
     }
 
     public Vector2 GetVelocity()
     {
-        return Invoke<Vector2>("GetVelocity");
+        return Invoke<Vector2>("Velocity");
     }
 
     public void SetPosition(Vector2 position)
     {
-        Invoke("SetPosition", position);
+        Invoke("Position", position);
     }
 
-    private T Invoke<T>(string methodName)
+    public void SetVelocity(Vector2 velocity)
+    {
+        Invoke("Velocity", velocity);
+    }
+
+    private T Invoke<T>(string propertyName)
     {
         try
         {
-            return (T)movableObject.GetType().GetMethod(methodName)!.Invoke(movableObject, null)!;
+            return (T)movableObject.GetType().GetProperty(propertyName)!.GetValue(movableObject)!;
         }
         catch (Exception e)
         {
@@ -32,11 +37,11 @@ public class MovableAdapter(object movableObject) : IMovable
         }
     }
 
-    private void Invoke<T>(string methodName, T value)
+    private void Invoke<T>(string propertyName, T value)
     {
         try
         {
-            movableObject.GetType().GetMethod(methodName)!.Invoke(movableObject, [value]);
+            movableObject.GetType().GetProperty(propertyName)!.SetValue(movableObject, value);
         }
         catch (Exception e)
         {

@@ -2,6 +2,7 @@ using Server.Adapters;
 using Server.Commands;
 using Server.Entities;
 using Server.Interfaces;
+using ServerTests.Entities;
 
 namespace ServerTests;
 
@@ -11,9 +12,11 @@ public class Tests
     public void Test1()
     {
         // arrange
-        Starship starship = new();
-        starship.SetPosition(new(12,5));
-        starship.SetVelocity(new(-7,3));
+        Starship starship = new()
+        {
+            Position = new(12,5),
+            Velocity = new(-7,3)
+        };
 
         IMovable adapter = new MovableAdapter(starship);
         MoveCommand moveCommand = new(adapter);
@@ -22,7 +25,7 @@ public class Tests
         moveCommand.Execute();
 
         // assert
-        Assert.Equal(new(5,8), starship.GetPosition());
+        Assert.Equal(new(5,8), starship.Position);
     }
 
     [Fact(DisplayName = "Unknown position object throws an exception")]
@@ -73,9 +76,11 @@ public class Tests
     public void Test5()
     {
         // arrange
-        Starship starship = new();
-        starship.SetAnglePosition(new(15));
-        starship.SetAngleVelocity(new(45));
+        Starship starship = new()
+        {
+            AnglePosition = new(15),
+            AngleVelocity = new(45),
+        };
 
         IRotatable adapter = new RotatableAdapter(starship);
         RotateCommand rotateCommand = new(adapter);
@@ -84,16 +89,18 @@ public class Tests
         rotateCommand.Execute();
 
         // assert
-        Assert.Equal(new(60), starship.GetAnglePosition());
+        Assert.Equal(new(60), starship.AnglePosition);
     }
 
     [Fact(DisplayName = "Starship full circle rotation")]
     public void Test6()
     {
         // arrange
-        Starship starship = new();
-        starship.SetAnglePosition(new(15));
-        starship.SetAngleVelocity(new(360_000_000));
+        Starship starship = new()
+        {
+            AnglePosition = new(15),
+            AngleVelocity = new(360_000_000),
+        };
 
         IRotatable adapter = new RotatableAdapter(starship);
         RotateCommand rotateCommand = new(adapter);
@@ -102,7 +109,7 @@ public class Tests
         rotateCommand.Execute();
 
         // assert
-        Assert.Equal(new(15), starship.GetAnglePosition());
+        Assert.Equal(new(15), starship.AnglePosition);
     }
 
     [Fact(DisplayName = "Not rotatable object throws exception")]

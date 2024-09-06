@@ -4,11 +4,13 @@ using Server.Commands;
 using Server.Entities;
 using Server.Interfaces;
 
-UnknownPositionObject obj = new();
-obj.SetPosition(new(12,5));
-obj.SetVelocity(new(-7,3));
+Starship starship = new()
+{
+    Position = new(12,5),
+    Velocity = new(-7,3)
+};
 
-IMovable adapter = new MovableAdapter(obj);
+IMovable adapter = new MovableAdapter(starship);
 MoveCommand moveCommand = new(adapter);
 
 Core core = new();

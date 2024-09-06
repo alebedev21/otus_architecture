@@ -4,7 +4,7 @@ namespace Server.Interfaces;
 
 public interface IRotatable
 {
-    Angle GetPosition();
-    Angle GetVelocity();
-    void SetPosition(Angle position);
+    Angle GetAnglePosition();
+    Angle GetAngleVelocity();
+    void SetAnglePosition(Angle position);
 }

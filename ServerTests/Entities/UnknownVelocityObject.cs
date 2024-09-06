@@ -1,9 +1,8 @@
 ﻿using System.Numerics;
 
-namespace Server.Entities;
+namespace ServerTests.Entities;
 
-#pragma warning disable CS0649 // Field is never assigned to, and will always have its default value
-public class UnchangeablePositionObject
+public class UnknownVelocityObject
 {
     private Vector2 _position;
     private Vector2 _velocity;
@@ -13,9 +12,9 @@ public class UnchangeablePositionObject
         return _position;
     }
 
-    public Vector2 GetVelocity()
+    public void SetPosition(Vector2 position)
     {
-        return _velocity;
+        _position = position;
     }
 
     public void SetVelocity(Vector2 velocity)
